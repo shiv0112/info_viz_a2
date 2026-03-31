@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gapminder Redesign — Health vs. Wealth</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Health vs. Wealth: A Bias-Aware Redesign</h1>
+        <p class="subtitle">Life Expectancy vs. GDP per Capita — Gapminder data (1952–2007) with data quality indicators</p>
+    </header>
+
+    <div id="controls">
+        <div class="control-group">
+            <label>X-Axis Scale:</label>
+            <div class="toggle-group">
+                <button id="btn-log" class="toggle-btn active">Log</button>
+                <button id="btn-linear" class="toggle-btn">Linear</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Regions:</label>
+            <div id="region-filters" class="filter-group"></div>
+        </div>
+
+        <div class="control-group">
+            <label>Data Quality:</label>
+            <div class="toggle-group">
+                <button id="btn-quality-on" class="toggle-btn active">Show</button>
+                <button id="btn-quality-off" class="toggle-btn">Hide</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Bubble Size:</label>
+            <div class="toggle-group">
+                <button id="btn-size-pop" class="toggle-btn active">Population</button>
+                <button id="btn-size-equal" class="toggle-btn">Equal</button>
+            </div>
+        </div>
+
+        <div class="control-group search-group">
+            <label for="country-search">Search:</label>
+            <input type="text" id="country-search" placeholder="Type country name...">
+            <div id="search-dropdown" class="search-dropdown"></div>
+        </div>
+    </div>
+
+    <!-- Small multiples section -->
+    <section id="small-multiples">
+        <h2>Overview: Key Years at a Glance</h2>
+        <p class="section-desc">Each panel shows the same scatter plot for a different year — compare patterns without animation bias. Hover to highlight a country across all panels.</p>
+        <div id="multiples-container"></div>
+    </section>
+
+    <!-- Detailed single-year view -->
+    <section id="detail-view">
+        <h2>Detailed View</h2>
+        <div id="year-slider-container">
+            <label for="year-slider">Year: <span id="year-label">2007</span></label>
+            <input type="range" id="year-slider" min="0" max="11" step="1" value="11">
+        </div>
+        <div id="detail-chart-container">
+            <div id="detail-chart"></div>
+            <div id="size-legend"></div>
+        </div>
+    </section>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <!-- Legend for data quality -->
+    <section id="legends">
+        <div class="legend-block">
+            <h3>Data Quality</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <svg width="24" height="24"><circle cx="12" cy="12" r="8" class="quality-high"></circle></svg>
+                    <span>High (solid border) — post-1990 or OECD</span>
+                </div>
+                <div class="legend-item">
+                    <svg width="24" height="24"><circle cx="12" cy="12" r="8" class="quality-medium"></circle></svg>
+                    <span>Medium (dashed) — 1970–1990</span>
+                </div>
+                <div class="legend-item">
+                    <svg width="24" height="24"><circle cx="12" cy="12" r="8" class="quality-low"></circle></svg>
+                    <span>Low (dotted) — pre-1970 estimates</span>
+                </div>
+            </div>
+        </div>
+        <div class="legend-block">
+            <h3>Region Colors</h3>
+            <div id="region-legend" class="legend-items"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Data: Gapminder Foundation (1952–2007) | Redesign addressing animation bias, area perception bias, and data uncertainty — CS5346 Assignment 2</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
